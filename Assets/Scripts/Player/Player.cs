@@ -60,6 +60,8 @@ public class Player : MonoBehaviour
     // We can add to this list to reduce or increase acceleration further and apply them all when calculating
     public List<float> additionalHorizAccelerationModifers;
 
+    public Lantern lanternWithinRange; // The lantern the player is currently able to interact with
+
     // Start is called before the first frame update
     void Start()
     {
@@ -146,5 +148,13 @@ public class Player : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void OnInterract()
+    {
+        if (lanternWithinRange != null)
+        {
+            lanternWithinRange.SetLitState(true);
+        }
     }
 }
