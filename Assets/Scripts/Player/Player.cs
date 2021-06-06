@@ -5,6 +5,30 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    #region Singleton Code
+    private static Player _instance;
+
+    public static Player Instance { get { return _instance; } }
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Debug.LogWarning("Attempted to Instantiate multiple Players in one scene!");
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (this == _instance) { _instance = null; }
+    }
+    #endregion
+
     [SerializeField]
     private bool canMove;
 
@@ -15,8 +39,7 @@ public class Player : MonoBehaviour
 
     public const float jumpVelocity = 7;
 
-    [SerializeField]
-    new private Rigidbody2D rigidbody;
+    public Rigidbody2D rb;
 
 
     private double horizVelocity;
@@ -30,12 +53,19 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float airborneHorizAccelerationMultiplier;
 
+    public bool allowExceedingMaxHorizVelocity;
+
+    public Launchpad launchpadWithAuthority; // Player can only be affected by one launch pad at a time
+
+    // We can add to this list to reduce or increase acceleration further and apply them all when calculating
+    public List<float> additionalHorizAccelerationModifers;
+
     // Start is called before the first frame update
     void Start()
     {
-        if (rigidbody == null)
+        if (rb == null)
         {
-            rigidbody = GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody2D>();
         }
         if (accelerationRate == 0)
         {
@@ -65,8 +95,24 @@ public class Player : MonoBehaviour
 
     private void HandleMovement()
     {
-        rigidbody.AddForce(new Vector2((float) movementAcceleration * accelerationRate, 0));
-        rigidbody.velocity = new Vector2(Mathf.Clamp(rigidbody.velocity.x, -maximumHorizSpeed, maximumHorizSpeed), rigidbody.velocity.y);
+        if (canMove)
+        {
+            float xForceToAdd = (float) movementAcceleration * accelerationRate;
+            if (isGrounded)
+            {
+                xForceToAdd *= airborneHorizAccelerationMultiplier;
+            }
+            foreach (float f in additionalHorizAccelerationModifers)
+            {
+                xForceToAdd *= f;
+            }
+            rb.AddForce(new Vector2(xForceToAdd, 0));
+
+            if (!allowExceedingMaxHorizVelocity)
+            {
+                rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maximumHorizSpeed, maximumHorizSpeed), rb.velocity.y);
+            }
+        }
     }
 
     public void OnMove(InputValue value)
@@ -78,7 +124,7 @@ public class Player : MonoBehaviour
     {
         if (isGrounded)
         {
-            rigidbody.AddForce(new Vector2(0, jumpForce));
+            rb.AddForce(new Vector2(0, jumpForce));
         }
     }
 
