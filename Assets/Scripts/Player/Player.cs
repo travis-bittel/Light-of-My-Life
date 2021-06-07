@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
         if (canMove)
         {
             float xForceToAdd = (float) movementAcceleration * accelerationRate;
-            if (isGrounded)
+            if (!isGrounded)
             {
                 xForceToAdd *= airborneHorizAccelerationMultiplier;
             }
@@ -134,8 +134,8 @@ public class Player : MonoBehaviour
     // to see if the player is grounded.
     private Collider2D GetGroundColliderUnderPlayer()
     {
-        Collider2D[] cols = Physics2D.OverlapCapsuleAll(new Vector2(transform.position.x - 0.25f, transform.position.y),
-            new Vector2(1.5f, 1.25f), CapsuleDirection2D.Vertical, 0);
+        Collider2D[] cols = Physics2D.OverlapCapsuleAll(new Vector2(transform.position.x, transform.position.y),
+            new Vector2(1f, 1.25f), CapsuleDirection2D.Vertical, 0);
 
         if (cols != null)
         {
