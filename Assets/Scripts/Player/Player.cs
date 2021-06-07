@@ -60,7 +60,22 @@ public class Player : MonoBehaviour
     // We can add to this list to reduce or increase acceleration further and apply them all when calculating
     public List<float> additionalHorizAccelerationModifers;
 
-    public Lantern lanternWithinRange; // The lantern the player is currently able to interact with
+    public int abilityLevel; // 1 = Stronger Light, 2 = Dash, 3 = Light Shot
+
+    // Delegate the responsibility for handling lantern stuff to LightHandler if it is present
+    public Lantern LanternWithinRange
+    {
+        get { return lanternWithinRange; }
+        set
+        {
+            if (LightHandler.Instance != null)
+            {
+                LightHandler.Instance.lanternWithinRange = value;
+            }
+            lanternWithinRange = value;
+        }
+    }
+    private Lantern lanternWithinRange; // The lantern the player is currently able to interact with
 
     // Start is called before the first frame update
     void Start()
@@ -150,11 +165,15 @@ public class Player : MonoBehaviour
         return null;
     }
 
+    // This 
     public void OnInterract()
     {
-        if (lanternWithinRange != null)
+        if (abilityLevel >= 1)
         {
             lanternWithinRange.SetLitState(true);
+        } else
+        {
+
         }
     }
 }

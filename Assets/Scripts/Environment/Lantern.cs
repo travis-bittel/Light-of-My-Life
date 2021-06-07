@@ -52,14 +52,14 @@ public class Lantern : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Player.Instance.lanternWithinRange = this;
+            Player.Instance.LanternWithinRange = this; 
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && Player.Instance.lanternWithinRange == this)
+        if (collision.CompareTag("Player") && Player.Instance.LanternWithinRange == this)
         {
-            Player.Instance.lanternWithinRange = null;
+            Player.Instance.LanternWithinRange = null;
         }
     }
 }
