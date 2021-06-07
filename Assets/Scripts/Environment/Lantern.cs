@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class Lantern : MonoBehaviour
 {
@@ -9,16 +10,32 @@ public class Lantern : MonoBehaviour
     [SerializeField]
     private LinkedObject[] linkedObjects;
 
+    private Light2D light2D;
+    private SpriteMask mask;
+
     public void SetLitState(bool isLit)
     {
         this.isLit = isLit;
         if (isLit)
         {
             // Update to Lit Sprite
+
         } else
         {
             // Update to Unlit Sprite
         }
+
+        if (light2D == null)
+        {
+            light2D = GetComponent<Light2D>();
+        }
+        if (mask == null)
+        {
+            mask = GetComponentInChildren<SpriteMask>();
+        }
+        mask.enabled = isLit;
+        light2D.enabled = isLit;
+
         if (linkedObjects == null)
         {
             Debug.LogWarning("Lantern had no linked objects. Make sure to assign a linked object in the inspector.");
