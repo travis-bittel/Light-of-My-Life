@@ -150,7 +150,7 @@ public class Player : MonoBehaviour
     private Collider2D GetGroundColliderUnderPlayer()
     {
         Collider2D[] cols = Physics2D.OverlapCapsuleAll(new Vector2(transform.position.x, transform.position.y),
-            new Vector2(1f, 1.25f), CapsuleDirection2D.Vertical, 0);
+            new Vector2(1.25f, 1.25f), CapsuleDirection2D.Vertical, 0);
 
         if (cols != null)
         {
