@@ -126,7 +126,8 @@ public class Player : MonoBehaviour
             {
                 xForceToAdd *= f;
             }
-            rb.AddForce(new Vector2(xForceToAdd, 0));
+            rb.AddForce(new Vector2(xForceToAdd * Time.deltaTime, 0));
+            //Debug.Log(new Vector2(xForceToAdd, 0));
 
             if (!allowExceedingMaxHorizVelocity)
             {
