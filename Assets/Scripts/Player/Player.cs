@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -76,6 +77,8 @@ public class Player : MonoBehaviour
         }
     }
     private Lantern lanternWithinRange; // The lantern the player is currently able to interact with
+
+    public Gate gateWithinRange;
 
     // Start is called before the first frame update
     void Start()
@@ -168,12 +171,26 @@ public class Player : MonoBehaviour
     // This 
     public void OnInterract()
     {
-        if (abilityLevel >= 1)
+        if (lanternWithinRange != null)
         {
-            lanternWithinRange.SetLitState(true);
-        } else
-        {
+            if (abilityLevel >= 1)
+            {
+                lanternWithinRange.SetLitState(true);
+            }
+            else
+            {
 
+            }
+        }
+        if (gateWithinRange != null && gateWithinRange.isUnlocked)
+        {
+            if (gateWithinRange.nextScene == "")
+            {
+                Debug.LogError("Gate had no attached Scene to move to!");
+            } else
+            {
+                SceneManager.LoadSceneAsync(gateWithinRange.nextScene);
+            }
         }
     }
 }

@@ -43,7 +43,25 @@ public class Lantern : MonoBehaviour
         {
             foreach (LinkedObject obj in linkedObjects)
             {
-                obj.gameObject.SetActive(obj.enableObjectWhenLit == isLit); // I wrote out a truth table to figure out this condition lmao
+                switch (obj.behavior)
+                {
+                    case LanternBehaviour.Enable:
+                        obj.gameObject.SetActive(true);
+                        break;
+                    case LanternBehaviour.Disable:
+                        obj.gameObject.SetActive(false);
+                        break;
+                    case LanternBehaviour.Unlock:
+                        Gate gate = obj.gameObject.GetComponent<Gate>();
+                        if (gate == null)
+                        {
+                            Debug.LogError("Lantern attempted to unlock an object without a Gate Component");
+                        } else
+                        {
+                            obj.gameObject.GetComponent<Gate>().AdjustUnlockProgress(1);
+                        }
+                        break;
+                }
             }
         }
     }
@@ -68,5 +86,13 @@ public class Lantern : MonoBehaviour
 public struct LinkedObject
 {
     public GameObject gameObject;
-    public bool enableObjectWhenLit; // Else disable it
+    //public bool enableObjectWhenLit; // Else disable it
+    public LanternBehaviour behavior;
+}
+
+public enum LanternBehaviour
+{
+    Enable,
+    Disable,
+    Unlock
 }
