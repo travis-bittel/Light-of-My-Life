@@ -153,8 +153,9 @@ public class Player : MonoBehaviour
     // to see if the player is grounded.
     private Collider2D GetGroundColliderUnderPlayer()
     {
-        Collider2D[] cols = Physics2D.OverlapCapsuleAll(new Vector2(transform.position.x, transform.position.y),
-            new Vector2(1.25f, 1.25f), CapsuleDirection2D.Vertical, 0);
+        // These values are complete trial and error. I tried calculating it but got totally lost and just decided to eyeball it.
+        Collider2D[] cols = Physics2D.OverlapAreaAll(new Vector2(transform.position.x - 0.45f, transform.position.y - 0.5f), 
+            new Vector2(transform.position.x + 0.45f, transform.position.y - 0.75f));
 
         if (cols != null)
         {

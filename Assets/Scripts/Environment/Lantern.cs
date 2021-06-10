@@ -13,6 +13,16 @@ public class Lantern : MonoBehaviour
     private Light2D light2D;
     private SpriteMask mask;
 
+    public GameObject uiObject;
+
+    private void Start()
+    {
+        if (uiObject == null)
+        {
+            uiObject = GameObject.Find("Text/Canvas/LanternText");
+        }
+        uiObject.SetActive(false);
+    }
     public void SetLitState(bool isLit)
     {
         this.isLit = isLit;
@@ -71,6 +81,7 @@ public class Lantern : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             Player.Instance.LanternWithinRange = this;
+            uiObject.SetActive(true);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -78,6 +89,7 @@ public class Lantern : MonoBehaviour
         if (collision.CompareTag("Player") && Player.Instance.LanternWithinRange == this)
         {
             Player.Instance.LanternWithinRange = null;
+            uiObject.SetActive(false);
         }
     }
 }
