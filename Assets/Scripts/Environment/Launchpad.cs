@@ -29,6 +29,10 @@ public class Launchpad : MonoBehaviour
     [SerializeField]
     private bool isReady;
 
+    [SerializeField]
+    public float maxHorizSpeed;
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isReady && collision.CompareTag("Player"))
@@ -55,9 +59,18 @@ public class Launchpad : MonoBehaviour
             timePassed += Time.deltaTime;
             if (timePassed < duration)
             {
-                if (applyContinuously)
+                if (Player.Instance.launchpadWithAuthority != this)
+                {
+                    Player.Instance.additionalHorizAccelerationModifers.Remove(playerManualMovementMultiplier);
+                    break;
+                }
+                if (applyContinuously && Player.Instance.launchpadWithAuthority == this)
                 {
                     Player.Instance.rb.AddForce(Time.deltaTime * force);
+                    if (maxHorizSpeed > 0)
+                    {
+                        Player.Instance.rb.velocity = new Vector2(Mathf.Clamp(Player.Instance.rb.velocity.x, -maxHorizSpeed, maxHorizSpeed), Player.Instance.rb.velocity.y);
+                    }
                 }
             } else
             {

@@ -63,6 +63,13 @@ public class Player : MonoBehaviour
 
     public int abilityLevel; // 1 = Stronger Light, 2 = Dash, 3 = Light Shot
 
+    public Vector3 lastSaveLocation;
+
+    [SerializeField]
+    private float dashForce;
+
+    public bool dashReady;
+
     // Delegate the responsibility for handling lantern stuff to LightHandler if it is present
     public Lantern LanternWithinRange
     {
@@ -101,6 +108,14 @@ public class Player : MonoBehaviour
         {
             jumpForce = 200;
             Debug.LogWarning("Jump Force was 0, defaulting to 200");
+        }
+        if (dashForce == 0)
+        {
+            dashForce = 200;
+        }
+        if (lastSaveLocation == null)
+        {
+            lastSaveLocation = transform.position;
         }
     }
 
@@ -149,27 +164,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    // This returns the nearest Collider in case we want to use it for something. For now we're just checking that it is non-null
-    // to see if the player is grounded.
-    private Collider2D GetGroundColliderUnderPlayer()
-    {
-        // These values are complete trial and error. I tried calculating it but got totally lost and just decided to eyeball it.
-        Collider2D[] cols = Physics2D.OverlapAreaAll(new Vector2(transform.position.x - 0.45f, transform.position.y - 0.5f), 
-            new Vector2(transform.position.x + 0.45f, transform.position.y - 0.75f));
-
-        if (cols != null)
-        {
-            foreach (Collider2D col in cols)
-            {
-                if (col.gameObject.CompareTag("Ground"))
-                {
-                    return col;
-                }
-            }
-        }
-        return null;
-    }
-
     // This 
     public void OnInterract()
     {
@@ -194,5 +188,31 @@ public class Player : MonoBehaviour
                 SceneManager.LoadSceneAsync(gateWithinRange.nextScene);
             }
         }
+    }
+
+    public void Die()
+    {
+        transform.position = lastSaveLocation;
+    }
+
+    // This returns the nearest Collider in case we want to use it for something. For now we're just checking that it is non-null
+    // to see if the player is grounded.
+    private Collider2D GetGroundColliderUnderPlayer()
+    {
+        // These values are complete trial and error. I tried calculating it but got totally lost and just decided to eyeball it.
+        Collider2D[] cols = Physics2D.OverlapAreaAll(new Vector2(transform.position.x - 0.45f, transform.position.y - 0.5f),
+            new Vector2(transform.position.x + 0.45f, transform.position.y - 0.75f));
+
+        if (cols != null)
+        {
+            foreach (Collider2D col in cols)
+            {
+                if (col.gameObject.CompareTag("Ground"))
+                {
+                    return col;
+                }
+            }
+        }
+        return null;
     }
 }
