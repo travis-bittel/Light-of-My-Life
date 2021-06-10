@@ -12,6 +12,10 @@ public class LightOrb : MonoBehaviour
     public GameObject uiObject;
     private void Start()
     {
+        if (uiObject == null)
+        {
+            uiObject = GameObject.Find("Text/Canvas/LightText");
+        }
         uiObject.SetActive(false);
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -41,6 +45,6 @@ public class LightOrb : MonoBehaviour
             LightHandler.Instance.IsCarryingLight = true;
         }
         gameObject.SetActive(false);
-        Destroy(uiObject);
+        uiObject.SetActive(false);
     }
 }

@@ -102,9 +102,6 @@ public class Player : MonoBehaviour
             jumpForce = 200;
             Debug.LogWarning("Jump Force was 0, defaulting to 200");
         }
-
-        var col = GetComponent<BoxCollider2D>();
-        Debug.Log(col.transform.position + ", " + col.sharedMaterial);
     }
 
     // Update is called once per frame
