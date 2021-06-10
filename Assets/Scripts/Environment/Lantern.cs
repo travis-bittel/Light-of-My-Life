@@ -29,7 +29,7 @@ public class Lantern : MonoBehaviour
         if (isLit)
         {
             // Update to Lit Sprite
-
+            Player.Instance.lastSaveLocation = transform.position;
         } else
         {
             // Update to Unlit Sprite
@@ -43,13 +43,13 @@ public class Lantern : MonoBehaviour
         {
             mask = GetComponentInChildren<SpriteMask>();
         }
-        mask.enabled = isLit;
+        if (mask != null)
+        {
+            mask.enabled = isLit;
+        }
         light2D.enabled = isLit;
 
-        if (linkedObjects == null)
-        {
-            Debug.LogWarning("Lantern had no linked objects. Make sure to assign a linked object in the inspector.");
-        } else
+        if (linkedObjects != null)
         {
             foreach (LinkedObject obj in linkedObjects)
             {
