@@ -17,6 +17,10 @@ public class Lantern : MonoBehaviour
 
     private void Start()
     {
+        if (uiObject == null)
+        {
+            uiObject = GameObject.Find("Text/Canvas/LanternText");
+        }
         uiObject.SetActive(false);
     }
     public void SetLitState(bool isLit)
