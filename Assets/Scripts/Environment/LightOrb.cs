@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class LightOrb : MonoBehaviour
 {
+    // The ability level this orb gives to the player on pickup.
+    // If this is 0, it functions as a normal light orb for use in the first region.
+    public int abilityLevelGranted;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -21,7 +25,13 @@ public class LightOrb : MonoBehaviour
 
     public void Pickup()
     {
-        LightHandler.Instance.IsCarryingLight = true;
+        if (abilityLevelGranted != 0)
+        {
+            Player.Instance.abilityLevel = abilityLevelGranted;
+        } else
+        {
+            LightHandler.Instance.IsCarryingLight = true;
+        }
         gameObject.SetActive(false);
     }
 }
