@@ -34,7 +34,7 @@ public class TextManager : MonoBehaviour
     [SerializeField]
     private TMP_Text floatingText;
     [SerializeField]
-    private Text fixedText;
+    private TMP_Text fixedText;
 
     [SerializeField]
     private int paragraphIndex;
@@ -60,7 +60,7 @@ public class TextManager : MonoBehaviour
     {
         floatingText.text = text;
     }
-    public void DisplayFixedText(string[] paragraph)
+    public void DisplayFixedText(params string[] paragraph)
     {
         currentParagraph = paragraph;
         paragraphIndex = 0;
@@ -70,14 +70,24 @@ public class TextManager : MonoBehaviour
         } else
         {
             fixedText.text = paragraph[0];
+            Player.Instance.canMove = false;
         }
     }
 
     // Scrolls to the next sentence in the currentParagraph
     // This is triggered using Unity's Fancy New Input System(tm)
-    public void OnNextSentence()
+    public void NextSentence()
     {
         paragraphIndex++;
-        fixedText.text = currentParagraph[paragraphIndex];
+        if (paragraphIndex < currentParagraph.Length)
+        {
+            fixedText.text = currentParagraph[paragraphIndex];
+        } else
+        {
+            currentParagraph = null;
+            paragraphIndex = 0;
+            fixedText.text = "";
+            Player.Instance.canMove = true;
+        }
     }
 }

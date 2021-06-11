@@ -73,10 +73,7 @@ public class LightHandler : MonoBehaviour
             {
                 lanternWithinRange.SetLitState(true);
                 IsCarryingLight = false; // Player can only light one lantern between light pickups until they get stronger light
-            }
-            else
-            {
-                // Show "Your light is not strong enough!" on screen
+                TextManager.Instance.DisplayFloatingText("");
             }
         }
         if (lightOrbWithinRange != null)
@@ -87,6 +84,7 @@ public class LightHandler : MonoBehaviour
             } else
             {
                 lightOrbWithinRange.Pickup();
+                TextManager.Instance.DisplayFloatingText("");
             }
         }
     }

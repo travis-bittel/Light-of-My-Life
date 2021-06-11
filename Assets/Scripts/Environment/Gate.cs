@@ -29,6 +29,23 @@ public class Gate : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             Player.Instance.gateWithinRange = this;
+            if (isUnlocked)
+            {
+                TextManager.Instance.DisplayFloatingText("Press <b><i>E</b></i> to enter the Doorway");
+            } else
+            {
+                if (progressRequiredForUnlock - unlockProgress == 1)
+                {
+                    TextManager.Instance.DisplayFloatingText("The Doorway is sealed shut. Activate <b><i>"
+                    + (progressRequiredForUnlock - unlockProgress)
+                    + "</b></i> more Lantern to open it");
+                } else
+                {
+                    TextManager.Instance.DisplayFloatingText("The Doorway is sealed shut. Activate <b><i>"
+                    + (progressRequiredForUnlock - unlockProgress)
+                    + "</b></i> more Lanterns to open it");
+                }
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -36,6 +53,7 @@ public class Gate : MonoBehaviour
         if (collision.CompareTag("Player") && Player.Instance.gateWithinRange == this)
         {
             Player.Instance.gateWithinRange = null;
+            TextManager.Instance.DisplayFloatingText("");
         }
     }
 }
