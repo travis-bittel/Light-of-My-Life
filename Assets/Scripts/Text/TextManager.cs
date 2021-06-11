@@ -59,6 +59,10 @@ public class TextManager : MonoBehaviour
     // Pass in an empty string to hide the text
     public void DisplayFloatingText(string text, Color color)
     {
+        if (floatingText == null)
+        {
+            floatingText = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<TMP_Text>();
+        }
         floatingText.text = text;
         floatingText.color = color;
     }

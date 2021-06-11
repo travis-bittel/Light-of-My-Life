@@ -98,7 +98,7 @@ public class Player : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "Region1")
         {
-            TextManager.Instance.DisplayFixedText(Color.white, "Press <b><i>Enter</b></i> to dismiss text", "Use <b><i>W</b></i> and <b><i>D</b></i> to move");
+            TextManager.Instance.DisplayFixedText(Color.white, "Press <b><i>Enter</b></i> to dismiss text", "Use <b><i>A</b></i> and <b><i>D</b></i> to move");
         }
         if (rb == null)
         {
