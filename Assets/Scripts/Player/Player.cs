@@ -70,6 +70,9 @@ public class Player : MonoBehaviour
 
     public bool dashReady;
 
+    [SerializeField]
+    private SpriteRenderer spriteRenderer;
+
     // Delegate the responsibility for handling lantern stuff to LightHandler if it is present
     public Lantern LanternWithinRange
     {
@@ -117,6 +120,10 @@ public class Player : MonoBehaviour
         {
             lastSaveLocation = transform.position;
         }
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
     }
 
     // Update is called once per frame
@@ -142,7 +149,6 @@ public class Player : MonoBehaviour
                 xForceToAdd *= f;
             }
             rb.AddForce(new Vector2(xForceToAdd * Time.deltaTime, 0));
-            //Debug.Log(new Vector2(xForceToAdd, 0));
 
             if (!allowExceedingMaxHorizVelocity)
             {
@@ -154,6 +160,14 @@ public class Player : MonoBehaviour
     public void OnMove(InputValue value)
     {
         movementAcceleration = value.Get<float>();
+        if (movementAcceleration > 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+        if (movementAcceleration < 0)
+        {
+            spriteRenderer.flipX = false;
+        }
     }
 
     public void OnJump()
