@@ -30,8 +30,7 @@ public class Player : MonoBehaviour
     }
     #endregion
 
-    [SerializeField]
-    private bool canMove;
+    public bool canMove;
 
     // If the player is standing on an object tagged with "Ground", they are considered grounded
     [SerializeField]
@@ -97,6 +96,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        TextManager.Instance.DisplayFixedText(Color.white, "Press <b><i>Enter</b></i> to dismiss text", "Use <b><i>W</b></i> and <b><i>D</b></i> to move");
         if (rb == null)
         {
             rb = GetComponent<Rigidbody2D>();
@@ -149,6 +149,10 @@ public class Player : MonoBehaviour
 
     private void HandleMovement()
     {
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody2D>();
+        }
         if (canMove)
         {
             float xForceToAdd = (float) movementAcceleration * accelerationRate;
@@ -172,19 +176,22 @@ public class Player : MonoBehaviour
     public void OnMove(InputValue value)
     {
         movementAcceleration = value.Get<float>();
-        if (movementAcceleration > 0)
+        if (canMove)
         {
-            spriteRenderer.flipX = true;
-        }
-        if (movementAcceleration < 0)
-        {
-            spriteRenderer.flipX = false;
+            if (movementAcceleration > 0)
+            {
+                spriteRenderer.flipX = true;
+            }
+            if (movementAcceleration < 0)
+            {
+                spriteRenderer.flipX = false;
+            }
         }
     }
 
     public void OnJump()
     {
-        if (isGrounded)
+        if (canMove && isGrounded)
         {
             rb.AddForce(new Vector2(0, jumpForce));
         }
@@ -197,6 +204,7 @@ public class Player : MonoBehaviour
             if (abilityLevel >= 1)
             {
                 lanternWithinRange.SetLitState(true);
+                TextManager.Instance.DisplayFloatingText("", Color.white);
             }
             else
             {
@@ -211,17 +219,24 @@ public class Player : MonoBehaviour
             } else
             {
                 SceneManager.LoadSceneAsync(gateWithinRange.nextScene);
+                TextManager.Instance.DisplayFloatingText("", Color.white);
             }
         }
         if (lightOrbWithinRange != null)
         {
             lightOrbWithinRange.Pickup();
+            TextManager.Instance.DisplayFloatingText("", Color.white);
         }
+    }
+
+    public void OnNextSentence()
+    {
+        TextManager.Instance.NextSentence();
     }
 
     public void OnDash()
     {
-        if (abilityLevel >= 2 && dashReady)
+        if (abilityLevel >= 2 && dashReady && canMove)
         {
             StartCoroutine(HandleDash());
         }

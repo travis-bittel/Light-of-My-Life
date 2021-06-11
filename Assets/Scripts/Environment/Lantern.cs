@@ -13,16 +13,12 @@ public class Lantern : MonoBehaviour
     private Light2D light2D;
     private SpriteMask mask;
 
-    public GameObject uiObject;
+    [SerializeField]
+    private string[] lightingText;
 
-    private void Start()
-    {
-        if (uiObject == null)
-        {
-            uiObject = GameObject.Find("Text/Canvas/LanternText");
-        }
-        uiObject.SetActive(false);
-    }
+    [SerializeField]
+    private Color color;
+
     public void SetLitState(bool isLit)
     {
         this.isLit = isLit;
@@ -30,6 +26,10 @@ public class Lantern : MonoBehaviour
         {
             // Update to Lit Sprite
             Player.Instance.lastSaveLocation = transform.position;
+            if (lightingText != null && lightingText.Length != 0)
+            {
+                TextManager.Instance.DisplayFixedText(color, lightingText);
+            }
         } else
         {
             // Update to Unlit Sprite
@@ -81,7 +81,17 @@ public class Lantern : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             Player.Instance.LanternWithinRange = this;
-            uiObject.SetActive(true);
+            if (!isLit)
+            {
+                if ((LightHandler.Instance != null && LightHandler.Instance.IsCarryingLight) || Player.Instance.abilityLevel >= 1)
+                {
+                    TextManager.Instance.DisplayFloatingText("Press <b><i>E</i></b> to light the Lantern", Color.white);
+                }
+                else
+                {
+                    TextManager.Instance.DisplayFloatingText("Your Light is not strong enough to light the Lantern!", Color.white);
+                }
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -89,7 +99,7 @@ public class Lantern : MonoBehaviour
         if (collision.CompareTag("Player") && Player.Instance.LanternWithinRange == this)
         {
             Player.Instance.LanternWithinRange = null;
-            uiObject.SetActive(false);
+            TextManager.Instance.DisplayFloatingText("", Color.white);
         }
     }
 }

@@ -9,15 +9,12 @@ public class LightOrb : MonoBehaviour
     // If this is 0, it functions as a normal light orb for use in the first region.
     public int abilityLevelGranted;
 
-    public GameObject uiObject;
-    private void Start()
-    {
-        if (uiObject == null)
-        {
-            uiObject = GameObject.Find("Text/Canvas/LightText");
-        }
-        uiObject.SetActive(false);
-    }
+    [SerializeField]
+    private string[] pickupText;
+
+    [SerializeField]
+    private Color color;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -25,11 +22,9 @@ public class LightOrb : MonoBehaviour
             if (LightHandler.Instance != null)
             {
                 LightHandler.Instance.lightOrbWithinRange = this;
-            } else
-            {
-                Player.Instance.lightOrbWithinRange = this;
             }
-            uiObject.SetActive(true);
+            Player.Instance.lightOrbWithinRange = this;
+            TextManager.Instance.DisplayFloatingText("Press <b><i>E</i></b> to collect the Light Orb", Color.white);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -41,7 +36,7 @@ public class LightOrb : MonoBehaviour
                 LightHandler.Instance.lightOrbWithinRange = null;
             }
             Player.Instance.lightOrbWithinRange = null;
-            uiObject.SetActive(false);
+            TextManager.Instance.DisplayFloatingText("", Color.white);
         }
     }
 
@@ -54,7 +49,7 @@ public class LightOrb : MonoBehaviour
         {
             LightHandler.Instance.IsCarryingLight = true;
         }
+        TextManager.Instance.DisplayFixedText(color, pickupText);
         gameObject.SetActive(false);
-        uiObject.SetActive(false);
     }
 }
