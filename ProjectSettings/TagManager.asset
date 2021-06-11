@@ -39,9 +39,6 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
-    locked: 0
   - name: Background
     uniqueID: 2829505135
     locked: 0
@@ -53,4 +50,10 @@ TagManager:
     locked: 0
   - name: Obstacles
     uniqueID: 1663171577
+    locked: 0
+  - name: Ref
+    uniqueID: 2735669299
+    locked: 0
+  - name: Default
+    uniqueID: 0
     locked: 0
