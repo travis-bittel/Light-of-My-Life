@@ -96,7 +96,10 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        TextManager.Instance.DisplayFixedText(Color.white, "Press <b><i>Enter</b></i> to dismiss text", "Use <b><i>W</b></i> and <b><i>D</b></i> to move");
+        if (SceneManager.GetActiveScene().name == "Region1")
+        {
+            TextManager.Instance.DisplayFixedText(Color.white, "Press <b><i>Enter</b></i> to dismiss text", "Use <b><i>W</b></i> and <b><i>D</b></i> to move");
+        }
         if (rb == null)
         {
             rb = GetComponent<Rigidbody2D>();
@@ -128,6 +131,7 @@ public class Player : MonoBehaviour
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
+        BlackScreenHandler.Instance.FadeIn(0, 0.5f);
     }
 
     // Update is called once per frame
@@ -213,14 +217,7 @@ public class Player : MonoBehaviour
         }
         if (gateWithinRange != null && gateWithinRange.isUnlocked)
         {
-            if (gateWithinRange.nextScene == "")
-            {
-                Debug.LogError("Gate had no attached Scene to move to!");
-            } else
-            {
-                SceneManager.LoadSceneAsync(gateWithinRange.nextScene);
-                TextManager.Instance.DisplayFloatingText("", Color.white);
-            }
+            gateWithinRange.NextLevel();
         }
         if (lightOrbWithinRange != null)
         {

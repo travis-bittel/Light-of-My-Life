@@ -29,11 +29,12 @@ public class BlackScreenHandler : MonoBehaviour
 
     private void Start()
     {
-        FadeIn(0, 0.5f);
+        group.alpha = 1;
     }
 
     public void FadeIn(float targetOpacity, float fadeRate)
     {
+        StopAllCoroutines();
         StartCoroutine(IFadeIn(targetOpacity, fadeRate));
     }
 

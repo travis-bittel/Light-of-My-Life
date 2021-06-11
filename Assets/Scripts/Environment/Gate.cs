@@ -56,4 +56,24 @@ public class Gate : MonoBehaviour
             TextManager.Instance.DisplayFloatingText("", Color.white);
         }
     }
+
+    public void NextLevel()
+    {
+        StartCoroutine(INextLevel());
+    }
+
+    private IEnumerator INextLevel()
+    {
+        BlackScreenHandler.Instance.FadeIn(1, 2);
+        yield return new WaitForSeconds(2);
+        if (nextScene == "")
+        {
+            Debug.LogError("Gate had no attached Scene to move to!");
+        }
+        else
+        {
+            SceneManager.LoadSceneAsync(nextScene);
+            TextManager.Instance.DisplayFloatingText("", Color.white);
+        }
+    }
 }
