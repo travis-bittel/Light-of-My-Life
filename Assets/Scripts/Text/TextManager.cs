@@ -71,7 +71,7 @@ public class TextManager : MonoBehaviour
         if (currentParagraph == null)
         {
             fixedText.text = null;
-        } else
+        } else if (paragraph.Length > 0)
         {
             fixedText.text = paragraph[0];
             Player.Instance.canMove = false;
