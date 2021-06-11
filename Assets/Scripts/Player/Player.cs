@@ -63,6 +63,20 @@ public class Player : MonoBehaviour
 
     public int abilityLevel; // 1 = Stronger Light, 2 = Dash, 3 = Light Shot
 
+    public Vector3 lastSaveLocation;
+
+    [SerializeField]
+    private float dashForce;
+
+    public bool dashReady;
+
+    private bool isDashing;
+
+    public LightOrb lightOrbWithinRange;
+
+    [SerializeField]
+    private SpriteRenderer spriteRenderer;
+
     // Delegate the responsibility for handling lantern stuff to LightHandler if it is present
     public Lantern LanternWithinRange
     {
@@ -102,6 +116,18 @@ public class Player : MonoBehaviour
             jumpForce = 200;
             Debug.LogWarning("Jump Force was 0, defaulting to 200");
         }
+        if (dashForce == 0)
+        {
+            dashForce = 200;
+        }
+        if (lastSaveLocation == Vector3.zero)
+        {
+            lastSaveLocation = transform.position;
+        }
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
     }
 
     // Update is called once per frame
@@ -109,6 +135,14 @@ public class Player : MonoBehaviour
     {
         // Update isGrounded every frame
         isGrounded = (GetGroundColliderUnderPlayer() != null);
+        if (isGrounded)
+        {
+            dashReady = true;
+        }
+        if (transform.position.y < -0.7f)
+        {
+            Die();
+        }
 
         HandleMovement();
     }
@@ -127,9 +161,8 @@ public class Player : MonoBehaviour
                 xForceToAdd *= f;
             }
             rb.AddForce(new Vector2(xForceToAdd * Time.deltaTime, 0));
-            //Debug.Log(new Vector2(xForceToAdd, 0));
 
-            if (!allowExceedingMaxHorizVelocity)
+            if (!allowExceedingMaxHorizVelocity && !isDashing)
             {
                 rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maximumHorizSpeed, maximumHorizSpeed), rb.velocity.y);
             }
@@ -139,6 +172,14 @@ public class Player : MonoBehaviour
     public void OnMove(InputValue value)
     {
         movementAcceleration = value.Get<float>();
+        if (movementAcceleration > 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+        if (movementAcceleration < 0)
+        {
+            spriteRenderer.flipX = false;
+        }
     }
 
     public void OnJump()
@@ -149,28 +190,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    // This returns the nearest Collider in case we want to use it for something. For now we're just checking that it is non-null
-    // to see if the player is grounded.
-    private Collider2D GetGroundColliderUnderPlayer()
-    {
-        // These values are complete trial and error. I tried calculating it but got totally lost and just decided to eyeball it.
-        Collider2D[] cols = Physics2D.OverlapAreaAll(new Vector2(transform.position.x - 0.45f, transform.position.y - 0.5f), 
-            new Vector2(transform.position.x + 0.45f, transform.position.y - 0.75f));
-
-        if (cols != null)
-        {
-            foreach (Collider2D col in cols)
-            {
-                if (col.gameObject.CompareTag("Ground"))
-                {
-                    return col;
-                }
-            }
-        }
-        return null;
-    }
-
-    // This 
     public void OnInterract()
     {
         if (lanternWithinRange != null)
@@ -194,5 +213,60 @@ public class Player : MonoBehaviour
                 SceneManager.LoadSceneAsync(gateWithinRange.nextScene);
             }
         }
+        if (lightOrbWithinRange != null)
+        {
+            lightOrbWithinRange.Pickup();
+        }
+    }
+
+    public void OnDash()
+    {
+        if (abilityLevel >= 2 && dashReady)
+        {
+            StartCoroutine(HandleDash());
+        }
+    }
+
+    private IEnumerator HandleDash()
+    {
+        isDashing = true;
+        rb.velocity = new Vector2(rb.velocity.x, 0);
+        additionalHorizAccelerationModifers.Add(0);
+        Vector2 dashVector = new Vector2(dashForce, 125);
+        if (!spriteRenderer.flipX)
+        {
+            dashVector.x *= -1;
+        }
+        rb.AddForce(dashVector);
+        dashReady = false;
+        yield return new WaitForSeconds(0.35f);
+        additionalHorizAccelerationModifers.Remove(0);
+        isDashing = false;
+    }
+
+    public void Die()
+    {
+        transform.position = lastSaveLocation;
+    }
+
+    // This returns the nearest Collider in case we want to use it for something. For now we're just checking that it is non-null
+    // to see if the player is grounded.
+    private Collider2D GetGroundColliderUnderPlayer()
+    {
+        // These values are complete trial and error. I tried calculating it but got totally lost and just decided to eyeball it.
+        Collider2D[] cols = Physics2D.OverlapAreaAll(new Vector2(transform.position.x - 0.45f, transform.position.y - 0.5f),
+            new Vector2(transform.position.x + 0.45f, transform.position.y - 0.75f));
+
+        if (cols != null)
+        {
+            foreach (Collider2D col in cols)
+            {
+                if (col.gameObject.CompareTag("Ground"))
+                {
+                    return col;
+                }
+            }
+        }
+        return null;
     }
 }

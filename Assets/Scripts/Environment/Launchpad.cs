@@ -29,6 +29,10 @@ public class Launchpad : MonoBehaviour
     [SerializeField]
     private bool isReady;
 
+    [SerializeField]
+    public float maxHorizSpeed;
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isReady && collision.CompareTag("Player"))
@@ -37,8 +41,10 @@ public class Launchpad : MonoBehaviour
         }
     }
 
+    // This code sucks but I don't have time to make it suck less
     private IEnumerator Launch()
     {
+        Player.Instance.dashReady = true;
         Player.Instance.launchpadWithAuthority = this;
         Player.Instance.allowExceedingMaxHorizVelocity = true;
         Player.Instance.rb.velocity = setInitialVelocity;
@@ -50,14 +56,23 @@ public class Launchpad : MonoBehaviour
         isReady = false;
         Player.Instance.rb.gravityScale = gravityScale;
         float timePassed = 0;
-        while (timePassed < cooldown)
+        while (timePassed < cooldown || timePassed < duration)
         {
             timePassed += Time.deltaTime;
             if (timePassed < duration)
             {
-                if (applyContinuously)
+                if (Player.Instance.launchpadWithAuthority != this)
+                {
+                    Player.Instance.additionalHorizAccelerationModifers.Remove(playerManualMovementMultiplier);
+                    break;
+                }
+                if (applyContinuously && Player.Instance.launchpadWithAuthority == this)
                 {
                     Player.Instance.rb.AddForce(Time.deltaTime * force);
+                    if (maxHorizSpeed > 0)
+                    {
+                        Player.Instance.rb.velocity = new Vector2(Mathf.Clamp(Player.Instance.rb.velocity.x, -maxHorizSpeed, maxHorizSpeed), Player.Instance.rb.velocity.y);
+                    }
                 }
             } else
             {

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7009551674924106038
+--- !u!1 &6843786787422691722
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,38 +8,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7009551674924106034}
-  - component: {fileID: 7009551674924106035}
-  - component: {fileID: 7009551674924106036}
-  - component: {fileID: 7009551674924106037}
+  - component: {fileID: 6843786787422691726}
+  - component: {fileID: 6843786787422691727}
+  - component: {fileID: 6843786787422691720}
+  - component: {fileID: 6843786787422691721}
   m_Layer: 0
-  m_Name: Launchpad
+  m_Name: Launchpad (Agility)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7009551674924106034
+--- !u!4 &6843786787422691726
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7009551674924106038}
+  m_GameObject: {fileID: 6843786787422691722}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.894, y: 0.992, z: 0}
+  m_LocalPosition: {x: -35.66, y: 13.2, z: 0}
   m_LocalScale: {x: 1, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &7009551674924106035
+--- !u!212 &6843786787422691727
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7009551674924106038}
+  m_GameObject: {fileID: 6843786787422691722}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 1, g: 0.4481132, b: 0.4481132, a: 1}
+  m_Color: {r: 0.28773582, g: 0.5943873, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -84,33 +84,34 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7009551674924106036
+--- !u!114 &6843786787422691720
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7009551674924106038}
+  m_GameObject: {fileID: 6843786787422691722}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38297aef1db5c194b8d7b6478e324c97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: {x: -400, y: 200}
-  setInitialVelocity: {x: -2, y: 2}
+  force: {x: 0, y: 400}
+  setInitialVelocity: {x: 0, y: 0}
   applyContinuously: 1
-  duration: 0.25
-  gravityScale: 0.25
-  playerManualMovementMultiplier: 0
+  duration: 1
+  gravityScale: 0
+  playerManualMovementMultiplier: 2
   cooldown: 2
   isReady: 1
---- !u!61 &7009551674924106037
+  maxHorizSpeed: 2
+--- !u!61 &6843786787422691721
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7009551674924106038}
+  m_GameObject: {fileID: 6843786787422691722}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
