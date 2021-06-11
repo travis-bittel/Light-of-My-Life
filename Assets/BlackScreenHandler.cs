@@ -21,16 +21,12 @@ public class BlackScreenHandler : MonoBehaviour
         {
             _instance = this;
         }
+        group.alpha = 1;
     }
     #endregion
 
     [SerializeField]
     private CanvasGroup group;
-
-    private void Start()
-    {
-        group.alpha = 1;
-    }
 
     public void FadeIn(float targetOpacity, float fadeRate)
     {
