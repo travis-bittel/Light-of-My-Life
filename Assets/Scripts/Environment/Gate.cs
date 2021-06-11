@@ -13,6 +13,9 @@ public class Gate : MonoBehaviour
     public bool isUnlocked;
 
     public string nextScene;
+
+    [SerializeField]
+    private bool noDisplay;
     
     public void AdjustUnlockProgress(int value)
     {
@@ -26,7 +29,7 @@ public class Gate : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && !noDisplay)
         {
             Player.Instance.gateWithinRange = this;
             if (isUnlocked)
@@ -50,7 +53,7 @@ public class Gate : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && Player.Instance.gateWithinRange == this)
+        if (collision.CompareTag("Player") && Player.Instance.gateWithinRange == this && !noDisplay)
         {
             Player.Instance.gateWithinRange = null;
             TextManager.Instance.DisplayFloatingText("", Color.white);
