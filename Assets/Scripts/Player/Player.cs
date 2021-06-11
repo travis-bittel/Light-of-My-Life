@@ -120,7 +120,7 @@ public class Player : MonoBehaviour
         {
             dashForce = 200;
         }
-        if (lastSaveLocation == null)
+        if (lastSaveLocation == Vector3.zero)
         {
             lastSaveLocation = transform.position;
         }
@@ -138,6 +138,10 @@ public class Player : MonoBehaviour
         if (isGrounded)
         {
             dashReady = true;
+        }
+        if (transform.position.y < -0.7f)
+        {
+            Die();
         }
 
         HandleMovement();
@@ -226,8 +230,9 @@ public class Player : MonoBehaviour
     private IEnumerator HandleDash()
     {
         isDashing = true;
+        rb.velocity = new Vector2(rb.velocity.x, 0);
         additionalHorizAccelerationModifers.Add(0);
-        Vector2 dashVector = new Vector2(dashForce, 75);
+        Vector2 dashVector = new Vector2(dashForce, 125);
         if (!spriteRenderer.flipX)
         {
             dashVector.x *= -1;

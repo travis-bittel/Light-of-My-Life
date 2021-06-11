@@ -44,6 +44,7 @@ public class Launchpad : MonoBehaviour
     // This code sucks but I don't have time to make it suck less
     private IEnumerator Launch()
     {
+        Player.Instance.dashReady = true;
         Player.Instance.launchpadWithAuthority = this;
         Player.Instance.allowExceedingMaxHorizVelocity = true;
         Player.Instance.rb.velocity = setInitialVelocity;
