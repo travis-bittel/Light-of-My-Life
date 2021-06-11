@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,7 @@ public class TextManager : MonoBehaviour
         {
             Debug.LogWarning("Attempted to Instantiate multiple Textmanagers in one scene!");
             Destroy(this.gameObject);
+            DontDestroyOnLoad(this); // Canvas should persist between levels
         }
         else
         {
@@ -29,43 +31,53 @@ public class TextManager : MonoBehaviour
     }
     #endregion
 
-    //public GameObject uiObject;
-    public Text textObject;
-    public Button button;
-    private int sentenceNum;
-    // Update is called once per frame
+    [SerializeField]
+    private TMP_Text floatingText;
+    [SerializeField]
+    private Text fixedText;
+
+    [SerializeField]
+    private int paragraphIndex;
+    public string[] currentParagraph;
+
     void Start()
     {
-        if (button == null)
+        if (floatingText == null)
         {
-            button = GetComponent<Button>();
-            button.onClick.AddListener(NextSentence);
+            floatingText = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<TMP_Text>();
+        }
+        if (floatingText == null)
+        {
+            Debug.LogError("Unable to get TMP_Text component from Player object!");
+        }
+        if (fixedText == null)
+        {
+            Debug.LogError("FixedText was null! Remember to assign it in the inspector!");
         }
     }
-    //thinking that uiObject could be a sentence within the collection
+    // Pass in an empty string to hide the text
     public void DisplayFloatingText(string text)
     {
-        textObject.text = text;
-        textObject.enabled = true;
+        floatingText.text = text;
     }
-    public void HideText()
+    public void DisplayFixedText(string[] paragraph)
     {
-        textObject.enabled = false;
-    }
-    public void DisplayFixedText(string[] sentences)
-    {
-        while (sentenceNum < sentences.Length)
+        currentParagraph = paragraph;
+        paragraphIndex = 0;
+        if (currentParagraph == null)
         {
-            textObject.text = sentences[sentenceNum];
-            textObject.enabled = true;
+            fixedText.text = null;
+        } else
+        {
+            fixedText.text = paragraph[0];
         }
     }
-    //scrolls to the next sentence in sentences array
-    private void NextSentence()
+
+    // Scrolls to the next sentence in the currentParagraph
+    // This is triggered using Unity's Fancy New Input System(tm)
+    public void OnNextSentence()
     {
-        //hides current text
-        HideText();
-        //increments to next sentence
-        sentenceNum++;
+        paragraphIndex++;
+        fixedText.text = currentParagraph[paragraphIndex];
     }
 }

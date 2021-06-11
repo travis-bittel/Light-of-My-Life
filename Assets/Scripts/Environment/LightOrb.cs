@@ -29,6 +29,7 @@ public class LightOrb : MonoBehaviour
             {
                 Player.Instance.lightOrbWithinRange = this;
             }
+            TextManager.Instance.DisplayFloatingText("Press <b><i>E</i></b> to collect the Light Orb");
             uiObject.SetActive(true);
         }
     }
