@@ -41,6 +41,7 @@ public class Launchpad : MonoBehaviour
         }
     }
 
+    // This code sucks but I don't have time to make it suck less
     private IEnumerator Launch()
     {
         Player.Instance.launchpadWithAuthority = this;
@@ -54,7 +55,7 @@ public class Launchpad : MonoBehaviour
         isReady = false;
         Player.Instance.rb.gravityScale = gravityScale;
         float timePassed = 0;
-        while (timePassed < cooldown)
+        while (timePassed < cooldown || timePassed < duration)
         {
             timePassed += Time.deltaTime;
             if (timePassed < duration)

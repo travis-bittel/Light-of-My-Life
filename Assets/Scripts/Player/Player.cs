@@ -70,6 +70,10 @@ public class Player : MonoBehaviour
 
     public bool dashReady;
 
+    private bool isDashing;
+
+    public LightOrb lightOrbWithinRange;
+
     [SerializeField]
     private SpriteRenderer spriteRenderer;
 
@@ -131,6 +135,10 @@ public class Player : MonoBehaviour
     {
         // Update isGrounded every frame
         isGrounded = (GetGroundColliderUnderPlayer() != null);
+        if (isGrounded)
+        {
+            dashReady = true;
+        }
 
         HandleMovement();
     }
@@ -150,7 +158,7 @@ public class Player : MonoBehaviour
             }
             rb.AddForce(new Vector2(xForceToAdd * Time.deltaTime, 0));
 
-            if (!allowExceedingMaxHorizVelocity)
+            if (!allowExceedingMaxHorizVelocity && !isDashing)
             {
                 rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maximumHorizSpeed, maximumHorizSpeed), rb.velocity.y);
             }
@@ -178,7 +186,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    // This 
     public void OnInterract()
     {
         if (lanternWithinRange != null)
@@ -202,6 +209,34 @@ public class Player : MonoBehaviour
                 SceneManager.LoadSceneAsync(gateWithinRange.nextScene);
             }
         }
+        if (lightOrbWithinRange != null)
+        {
+            lightOrbWithinRange.Pickup();
+        }
+    }
+
+    public void OnDash()
+    {
+        if (abilityLevel >= 2 && dashReady)
+        {
+            StartCoroutine(HandleDash());
+        }
+    }
+
+    private IEnumerator HandleDash()
+    {
+        isDashing = true;
+        additionalHorizAccelerationModifers.Add(0);
+        Vector2 dashVector = new Vector2(dashForce, 75);
+        if (!spriteRenderer.flipX)
+        {
+            dashVector.x *= -1;
+        }
+        rb.AddForce(dashVector);
+        dashReady = false;
+        yield return new WaitForSeconds(0.35f);
+        additionalHorizAccelerationModifers.Remove(0);
+        isDashing = false;
     }
 
     public void Die()

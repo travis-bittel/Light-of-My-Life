@@ -22,15 +22,25 @@ public class LightOrb : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            LightHandler.Instance.lightOrbWithinRange = this;
+            if (LightHandler.Instance != null)
+            {
+                LightHandler.Instance.lightOrbWithinRange = this;
+            } else
+            {
+                Player.Instance.lightOrbWithinRange = this;
+            }
             uiObject.SetActive(true);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && LightHandler.Instance.lightOrbWithinRange == this)
+        if (collision.CompareTag("Player") && Player.Instance.lightOrbWithinRange == this)
         {
-            LightHandler.Instance.lightOrbWithinRange = null;
+            if (LightHandler.Instance != null)
+            {
+                LightHandler.Instance.lightOrbWithinRange = null;
+            }
+            Player.Instance.lightOrbWithinRange = null;
             uiObject.SetActive(false);
         }
     }
