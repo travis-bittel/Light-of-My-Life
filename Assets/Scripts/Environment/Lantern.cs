@@ -16,6 +16,9 @@ public class Lantern : MonoBehaviour
     [SerializeField]
     private string[] lightingText;
 
+    [SerializeField]
+    private Color color;
+
     public void SetLitState(bool isLit)
     {
         this.isLit = isLit;
@@ -25,7 +28,7 @@ public class Lantern : MonoBehaviour
             Player.Instance.lastSaveLocation = transform.position;
             if (lightingText != null && lightingText.Length != 0)
             {
-                TextManager.Instance.DisplayFixedText(lightingText);
+                TextManager.Instance.DisplayFixedText(color, lightingText);
             }
         } else
         {
@@ -82,11 +85,11 @@ public class Lantern : MonoBehaviour
             {
                 if ((LightHandler.Instance != null && LightHandler.Instance.IsCarryingLight) || Player.Instance.abilityLevel >= 1)
                 {
-                    TextManager.Instance.DisplayFloatingText("Press <b><i>E</i></b> to light the Lantern");
+                    TextManager.Instance.DisplayFloatingText("Press <b><i>E</i></b> to light the Lantern", Color.white);
                 }
                 else
                 {
-                    TextManager.Instance.DisplayFloatingText("Your Light is not strong enough to light the Lantern!");
+                    TextManager.Instance.DisplayFloatingText("Your Light is not strong enough to light the Lantern!", Color.white);
                 }
             }
         }
@@ -96,7 +99,7 @@ public class Lantern : MonoBehaviour
         if (collision.CompareTag("Player") && Player.Instance.LanternWithinRange == this)
         {
             Player.Instance.LanternWithinRange = null;
-            TextManager.Instance.DisplayFloatingText("");
+            TextManager.Instance.DisplayFloatingText("", Color.white);
         }
     }
 }

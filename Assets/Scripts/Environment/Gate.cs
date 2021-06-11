@@ -31,19 +31,19 @@ public class Gate : MonoBehaviour
             Player.Instance.gateWithinRange = this;
             if (isUnlocked)
             {
-                TextManager.Instance.DisplayFloatingText("Press <b><i>E</b></i> to enter the Doorway");
+                TextManager.Instance.DisplayFloatingText("Press <b><i>E</b></i> to enter the Doorway", Color.white);
             } else
             {
                 if (progressRequiredForUnlock - unlockProgress == 1)
                 {
                     TextManager.Instance.DisplayFloatingText("The Doorway is sealed shut. Activate <b><i>"
                     + (progressRequiredForUnlock - unlockProgress)
-                    + "</b></i> more Lantern to open it");
+                    + "</b></i> more Lantern to open it", Color.white);
                 } else
                 {
                     TextManager.Instance.DisplayFloatingText("The Doorway is sealed shut. Activate <b><i>"
                     + (progressRequiredForUnlock - unlockProgress)
-                    + "</b></i> more Lanterns to open it");
+                    + "</b></i> more Lanterns to open it", Color.white);
                 }
             }
         }
@@ -53,7 +53,7 @@ public class Gate : MonoBehaviour
         if (collision.CompareTag("Player") && Player.Instance.gateWithinRange == this)
         {
             Player.Instance.gateWithinRange = null;
-            TextManager.Instance.DisplayFloatingText("");
+            TextManager.Instance.DisplayFloatingText("", Color.white);
         }
     }
 }

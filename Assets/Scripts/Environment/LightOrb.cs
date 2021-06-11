@@ -12,6 +12,9 @@ public class LightOrb : MonoBehaviour
     [SerializeField]
     private string[] pickupText;
 
+    [SerializeField]
+    private Color color;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -21,7 +24,7 @@ public class LightOrb : MonoBehaviour
                 LightHandler.Instance.lightOrbWithinRange = this;
             }
             Player.Instance.lightOrbWithinRange = this;
-            TextManager.Instance.DisplayFloatingText("Press <b><i>E</i></b> to collect the Light Orb");
+            TextManager.Instance.DisplayFloatingText("Press <b><i>E</i></b> to collect the Light Orb", Color.white);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -33,7 +36,7 @@ public class LightOrb : MonoBehaviour
                 LightHandler.Instance.lightOrbWithinRange = null;
             }
             Player.Instance.lightOrbWithinRange = null;
-            TextManager.Instance.DisplayFloatingText("");
+            TextManager.Instance.DisplayFloatingText("", Color.white);
         }
     }
 
@@ -46,7 +49,7 @@ public class LightOrb : MonoBehaviour
         {
             LightHandler.Instance.IsCarryingLight = true;
         }
-        TextManager.Instance.DisplayFixedText(pickupText);
+        TextManager.Instance.DisplayFixedText(color, pickupText);
         gameObject.SetActive(false);
     }
 }

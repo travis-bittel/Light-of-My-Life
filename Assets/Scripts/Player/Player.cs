@@ -96,7 +96,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        TextManager.Instance.DisplayFixedText("Press <b><i>Enter</b></i> to dismiss text", "Use <b><i>W</b></i> and <b><i>D</b></i> to move");
+        TextManager.Instance.DisplayFixedText(Color.white, "Press <b><i>Enter</b></i> to dismiss text", "Use <b><i>W</b></i> and <b><i>D</b></i> to move");
         if (rb == null)
         {
             rb = GetComponent<Rigidbody2D>();
@@ -149,6 +149,10 @@ public class Player : MonoBehaviour
 
     private void HandleMovement()
     {
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody2D>();
+        }
         if (canMove)
         {
             float xForceToAdd = (float) movementAcceleration * accelerationRate;
@@ -200,7 +204,7 @@ public class Player : MonoBehaviour
             if (abilityLevel >= 1)
             {
                 lanternWithinRange.SetLitState(true);
-                TextManager.Instance.DisplayFloatingText("");
+                TextManager.Instance.DisplayFloatingText("", Color.white);
             }
             else
             {
@@ -215,13 +219,13 @@ public class Player : MonoBehaviour
             } else
             {
                 SceneManager.LoadSceneAsync(gateWithinRange.nextScene);
-                TextManager.Instance.DisplayFloatingText("");
+                TextManager.Instance.DisplayFloatingText("", Color.white);
             }
         }
         if (lightOrbWithinRange != null)
         {
             lightOrbWithinRange.Pickup();
-            TextManager.Instance.DisplayFloatingText("");
+            TextManager.Instance.DisplayFloatingText("", Color.white);
         }
     }
 

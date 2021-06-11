@@ -13,6 +13,7 @@ public class TextManager : MonoBehaviour
 
     private void Awake()
     {
+        DontDestroyOnLoad(this);
         if (_instance != null && _instance != this)
         {
             Debug.LogWarning("Attempted to Instantiate multiple Textmanagers in one scene!");
@@ -56,14 +57,17 @@ public class TextManager : MonoBehaviour
         }
     }
     // Pass in an empty string to hide the text
-    public void DisplayFloatingText(string text)
+    public void DisplayFloatingText(string text, Color color)
     {
         floatingText.text = text;
+        floatingText.color = color;
     }
-    public void DisplayFixedText(params string[] paragraph)
+
+    public void DisplayFixedText(Color color, params string[] paragraph)
     {
         currentParagraph = paragraph;
         paragraphIndex = 0;
+        fixedText.color = color;
         if (currentParagraph == null)
         {
             fixedText.text = null;
