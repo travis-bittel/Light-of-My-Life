@@ -51,7 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canMove: 1
   isGrounded: 0
-  rb: {fileID: 0}
+  rb: {fileID: 1189219970570700806}
   accelerationRate: 1000
   maximumHorizSpeed: 3
   jumpForce: 300
@@ -59,10 +59,11 @@ MonoBehaviour:
   allowExceedingMaxHorizVelocity: 0
   launchpadWithAuthority: {fileID: 0}
   additionalHorizAccelerationModifers: []
-  abilityLevel: 1
+  abilityLevel: 2
   lastSaveLocation: {x: 0, y: 0, z: 0}
   dashForce: 300
   dashReady: 1
+  lightOrbWithinRange: {fileID: 0}
   spriteRenderer: {fileID: 0}
   gateWithinRange: {fileID: 0}
 --- !u!114 &1189219970570700809
@@ -270,7 +271,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0008096844, y: 0.00018040091}
+  m_Offset: {x: 0.0008096695, y: -0.0055863857}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -281,7 +282,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.180032, y: 2.227069}
+  m_Size: {x: 2.180032, y: 2.2386022}
   m_EdgeRadius: 0
 --- !u!1 &4727754633247995687
 GameObject:
