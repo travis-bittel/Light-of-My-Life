@@ -50,7 +50,7 @@ public class LightHandler : MonoBehaviour
             }
 
             isCarryingLight = value;
-            if (isCarryingLight)
+            /*if (isCarryingLight)
             {
                 light2D.intensity = 2;
                 mask.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
@@ -58,7 +58,7 @@ public class LightHandler : MonoBehaviour
             {
                 light2D.intensity = 1;
                 mask.transform.localScale = new Vector3(1f, 1f, 1f);
-            }
+            }*/
         }
     }
 

@@ -39,6 +39,21 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2829505135
+    locked: 0
+  - name: PreBack
+    uniqueID: 2475643099
+    locked: 0
+  - name: Interactables
+    uniqueID: 4134516395
+    locked: 0
+  - name: Obstacles
+    uniqueID: 1663171577
+    locked: 0
+  - name: Ref
+    uniqueID: 2735669299
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
