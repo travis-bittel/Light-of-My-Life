@@ -34,8 +34,7 @@ public class TextManager : MonoBehaviour
 
     [SerializeField]
     private TMP_Text floatingText;
-    [SerializeField]
-    private TMP_Text fixedText;
+    public TMP_Text fixedText;
 
     [SerializeField]
     private int paragraphIndex;

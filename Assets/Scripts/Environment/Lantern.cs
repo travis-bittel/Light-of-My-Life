@@ -19,8 +19,15 @@ public class Lantern : MonoBehaviour
     [SerializeField]
     private Color color;
 
+    [SerializeField]
+    private bool isEndgame;
+
     public void SetLitState(bool isLit)
     {
+        if (isEndgame)
+        {
+            StartCoroutine(Endgame());
+        }
         this.isLit = isLit;
         if (isLit)
         {
@@ -74,6 +81,15 @@ public class Lantern : MonoBehaviour
                 }
             }
         }
+    }
+
+    private IEnumerator Endgame()
+    {
+        BlackScreenHandler.Instance.FadeIn(1, 2);
+        yield return new WaitForSeconds(2);
+        TextManager.Instance.DisplayFixedText(color, "Welcome home, Lumo.<br><b>THE END<b>");
+        TextManager.Instance.fixedText.alignment = TMPro.TextAlignmentOptions.Center;
+        TextManager.Instance.fixedText.fontSize = 76;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
