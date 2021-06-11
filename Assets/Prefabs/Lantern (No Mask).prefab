@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7e6ddfddf57b3b84aab599165b385df3, type: 3}
   m_Color: {r: 0.4298683, g: 0.43699947, b: 0.5660378, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,7 +99,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLit: 0
   linkedObjects: []
-  uiObject: {fileID: 0}
+  lightingText: []
+  color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!70 &1102833643679092312
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
